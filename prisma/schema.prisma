@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["native", "linux-arm64-openssl-3.0.x"]
 }
 
 datasource db {
@@ -8,10 +9,62 @@ datasource db {
 }
 
 model User {
-  id            Int     @id @default(autoincrement())
-  email         String  @unique
-  username      String  @unique
+  id            Int       @id @default(autoincrement())
+  email         String    @unique
+  username      String    @unique
   role          String
   trusted_email Boolean
   avatar        String?
+  products      Product[]
+  orders        Order[]
+  cart          Cart[]
+}
+
+model Product {
+  id          Int            @id @default(autoincrement())
+  name        String
+  description String?
+  price       Decimal        @default(0)
+  count       Int            @default(1)
+  disabled    Boolean        @default(false)
+  userId      Int
+  images      Media[]
+  soldCount   OrderProduct[]
+  cart        Cart[]
+  user        User           @relation(fields: [userId], references: [id])
+}
+
+model Media {
+  id        Int     @id @default(autoincrement())
+  link      String
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+model Order {
+  id            Int            @id @default(autoincrement())
+  userId        Int
+  date          DateTime       @default(now())
+  orderProducts OrderProduct[]
+  user          User           @relation(fields: [userId], references: [id])
+}
+
+model OrderProduct {
+  id        Int     @id @default(autoincrement())
+  quantity  Int     @default(1)
+  sum       Decimal @default(0)
+  productId Int
+  orderId   Int
+  product   Product @relation(fields: [productId], references: [id])
+  order     Order   @relation(fields: [orderId], references: [id])
+}
+
+model Cart {
+  userId    Int
+  productId Int
+  count     Int
+  user      User    @relation(fields: [userId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@id([userId, productId])
 }

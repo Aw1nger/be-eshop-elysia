@@ -3,7 +3,8 @@
   "version": "1.0.50",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "dev": "bun run --watch src/index.ts",
+    "build": "bun build src/index.ts --target bun --outfile main.ts --minify"
   },
   "dependencies": {
     "@elysiajs/jwt": "^1.2.0",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "bun-types": "latest",
+    "prettier-plugin-prisma": "^5.0.0",
     "prisma": "^6.6.0"
   },
   "module": "src/index.js"
