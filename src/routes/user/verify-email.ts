@@ -45,7 +45,7 @@ export const verifyEmailRoutes = new Elysia().use(jwtPlugin).post(
       email: user.email,
       username: user.username,
       avatar: user.avatar ?? "",
-      role: user.role,
+      role: user.role as "user" | "admin",
     });
 
     const refreshToken = nanoid(64);

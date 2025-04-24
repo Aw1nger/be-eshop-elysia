@@ -1,5 +1,4 @@
 import Elysia, { t } from "elysia";
-import { ApiError } from "../../lib/api-error";
 import { prisma } from "../../lib/prisma-client";
 import { isAuth } from "../../plugins/is-auth";
 
@@ -44,17 +43,8 @@ export const CreateProductSchema = t.Object({
 
 export const createProductsRoutes = new Elysia().use(isAuth).post(
   "/create",
-  async ({ body, set, payload }) => {
+  async ({ body, user }) => {
     const { name, description, price, count } = body;
-    const user = await prisma.user.findUnique({
-      where: {
-        id: payload.id,
-      },
-    });
-
-    if (!user) {
-      throw new ApiError("Unauthorised", 401);
-    }
 
     const product = await prisma.product.create({
       data: {
