@@ -6,6 +6,7 @@ const redisClient = createClient({
     port: Number(Bun.env.REDIS_PORT) || 6379,
   },
   password: Bun.env.REDIS_PASSWORD || undefined,
+  username: "default",
 });
 
 redisClient.on("error", (err) => console.error("Redis Client Error", err));

@@ -4,6 +4,7 @@ import { ApiError } from "./lib/api-error";
 import { swaggerplugin } from "./plugins/swagger";
 import { createProductsRoutes } from "./routes/shop/create-products";
 import { getProductsRoutes } from "./routes/shop/get-products";
+import { uploadProductsPhotoRoutes } from "./routes/shop/upload-products-photo";
 import { loginRoutes } from "./routes/user/login";
 import { loginCodeRoutes } from "./routes/user/login-code";
 import { refreshTokenRoutes } from "./routes/user/refresh-token";
@@ -49,10 +50,13 @@ app.group("/user", (app) =>
 );
 
 app.group("/products", (app) =>
-  app.use(createProductsRoutes).use(getProductsRoutes),
+  app
+    .use(createProductsRoutes)
+    .use(getProductsRoutes)
+    .use(uploadProductsPhotoRoutes),
 );
 
 app.listen(8000, () => {
-  console.info("🦊 Server started on port 8000");
+  console.info(`🦊 Elysia is running at on port ${app.server?.port}`);
   console.info("🔗 Swagger:", "http://localhost:8000/swagger");
 });
