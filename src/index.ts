@@ -10,6 +10,7 @@ import { loginRoutes } from "./routes/user/login";
 import { loginCodeRoutes } from "./routes/user/login-code";
 import { refreshTokenRoutes } from "./routes/user/refresh-token";
 import { registerRoutes } from "./routes/user/register";
+import { tokenRoutes } from "./routes/user/token";
 import { verifyEmailRoutes } from "./routes/user/verify-email";
 
 const app = new Elysia();
@@ -46,6 +47,7 @@ app.group("/user", (app) =>
     .use(registerRoutes)
     .use(verifyEmailRoutes)
     .use(refreshTokenRoutes)
+    .use(tokenRoutes)
     .use(loginRoutes)
     .use(loginCodeRoutes),
 );
@@ -58,7 +60,7 @@ app.group("/products", (app) =>
     .use(uploadProductsPhotoRoutes),
 );
 
-app.listen(8000, () => {
+app.listen(8001, () => {
   console.info(`🦊 Elysia is running at on port ${app.server?.port}`);
-  console.info("🔗 Swagger:", "http://localhost:8000/swagger");
+  console.info("🔗 Swagger:", `http://localhost:${app.server?.port}/swagger`);
 });
