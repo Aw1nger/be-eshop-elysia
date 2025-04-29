@@ -3,6 +3,7 @@ import Elysia from "elysia";
 import { ApiError } from "./lib/api-error";
 import { swaggerplugin } from "./plugins/swagger";
 import { createProductsRoutes } from "./routes/shop/create-products";
+import { getProductRoutes } from "./routes/shop/get-product";
 import { getProductsRoutes } from "./routes/shop/get-products";
 import { uploadProductsPhotoRoutes } from "./routes/shop/upload-products-photo";
 import { loginRoutes } from "./routes/user/login";
@@ -53,6 +54,7 @@ app.group("/products", (app) =>
   app
     .use(createProductsRoutes)
     .use(getProductsRoutes)
+    .use(getProductRoutes)
     .use(uploadProductsPhotoRoutes),
 );
 
