@@ -53,25 +53,6 @@ services:
         mc mb myminio/photo
       "
 
-  backend-init:
-    build: .
-    entrypoint: >
-      sh -c "
-        bunx prisma migrate deploy
-      "
-    env_file:
-      - .env.production
-
-  backend:
-    build: .
-    ports:
-      - 8000:8000
-    depends_on:
-      backend-init:
-        condition: service_started
-    env_file:
-      - .env.production
-
 volumes:
   redis_data:
   postgres_data:
