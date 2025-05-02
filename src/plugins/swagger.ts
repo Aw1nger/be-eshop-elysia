@@ -33,6 +33,7 @@ export const swaggerplugin = new Elysia().use(
       tags: [
         { name: "Auth", description: "Ендпоинты аутентификации" },
         { name: "Shop", description: "Ендпоинты товаров" },
+        { name: "User", description: "Ендпоинты юзера" },
       ],
       components: {
         securitySchemes: {

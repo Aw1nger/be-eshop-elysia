@@ -2,16 +2,19 @@ import Elysia from "elysia";
 
 import { ApiError } from "./lib/api-error";
 import { swaggerplugin } from "./plugins/swagger";
+import { loginRoutes } from "./routes/auth/login";
+import { loginCodeRoutes } from "./routes/auth/login-code";
+import { refreshTokenRoutes } from "./routes/auth/refresh-token";
+import { registerRoutes } from "./routes/auth/register";
+import { tokenRoutes } from "./routes/auth/token";
+import { verifyEmailRoutes } from "./routes/auth/verify-email";
 import { createProductsRoutes } from "./routes/shop/create-products";
+import { deleteProductRoutes } from "./routes/shop/delete-product";
 import { getProductRoutes } from "./routes/shop/get-product";
 import { getProductsRoutes } from "./routes/shop/get-products";
 import { uploadProductsPhotoRoutes } from "./routes/shop/upload-products-photo";
-import { loginRoutes } from "./routes/user/login";
-import { loginCodeRoutes } from "./routes/user/login-code";
-import { refreshTokenRoutes } from "./routes/user/refresh-token";
-import { registerRoutes } from "./routes/user/register";
-import { tokenRoutes } from "./routes/user/token";
-import { verifyEmailRoutes } from "./routes/user/verify-email";
+import { userProductsRoutes } from "./routes/user/products";
+import { userRoutes } from "./routes/user/username";
 
 const app = new Elysia();
 
@@ -42,7 +45,16 @@ app.onError(({ error, set, path, code }) => {
   return { message: "Internal server error" };
 });
 
-app.group("/user", (app) =>
+app.group("/products", (app) =>
+  app
+    .use(createProductsRoutes)
+    .use(getProductsRoutes)
+    .use(getProductRoutes)
+    .use(deleteProductRoutes)
+    .use(uploadProductsPhotoRoutes),
+);
+
+app.group("/auth", (app) =>
   app
     .use(registerRoutes)
     .use(verifyEmailRoutes)
@@ -52,15 +64,9 @@ app.group("/user", (app) =>
     .use(loginCodeRoutes),
 );
 
-app.group("/products", (app) =>
-  app
-    .use(createProductsRoutes)
-    .use(getProductsRoutes)
-    .use(getProductRoutes)
-    .use(uploadProductsPhotoRoutes),
-);
+app.group("/user", (app) => app.use(userRoutes).use(userProductsRoutes));
 
-app.listen(8001, () => {
+app.listen(8000, () => {
   console.info(`🦊 Elysia is running at on port ${app.server?.port}`);
   console.info("🔗 Swagger:", `http://localhost:${app.server?.port}/swagger`);
 });

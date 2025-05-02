@@ -33,8 +33,8 @@ export const uploadProductsPhotoRoutes = new Elysia().use(isAuth).post(
     const basePath = `products/${productId}`;
 
     const sizes: { name: MediaType; resize: number }[] = [
-      { name: "preview", resize: 800 },
-      { name: "thumb", resize: 200 },
+      { name: "preview", resize: 200 },
+      { name: "thumb", resize: 800 },
     ];
 
     const formats: formats[] = ["jpeg", "webp", "avif"];
