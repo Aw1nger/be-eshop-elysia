@@ -20,6 +20,9 @@ export const deleteProductRoutes = new Elysia().delete(
     };
   },
   {
-    tags: ["Shop"],
+    detail: {
+      tags: ["Shop"],
+      description: "Метод удаления продукта",
+    },
   },
 );

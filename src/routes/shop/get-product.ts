@@ -72,6 +72,7 @@ export const getProductRoutes = new Elysia().get(
   {
     detail: {
       tags: ["Shop"],
+      description: "Получение продукта по id",
     },
   },
 );

@@ -59,6 +59,9 @@ export const registerRoutes = new Elysia().post(
   },
   {
     body: registerSchema,
-    detail: { tags: ["Auth"] },
+    detail: {
+      tags: ["Auth"],
+      description: "Ввод основныз данных пользователя для регистрации",
+    },
   },
 );

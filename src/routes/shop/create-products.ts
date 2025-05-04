@@ -64,6 +64,7 @@ export const createProductsRoutes = new Elysia().use(isAuth).post(
     body: CreateProductSchema,
     detail: {
       tags: ["Shop"],
+      description: "Создание продукта",
       security: [
         {
           bearerAuth: [],

@@ -77,6 +77,7 @@ export const uploadProductsPhotoRoutes = new Elysia().use(isAuth).post(
     body: uploadSchema,
     detail: {
       tags: ["Shop"],
+      description: "Метод загрузки фото к продукту",
       security: [{ bearerAuth: [] }],
       requestBody: {
         description: "Upload a product photo",

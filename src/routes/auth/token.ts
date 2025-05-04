@@ -6,5 +6,6 @@ export const tokenRoutes = new Elysia()
   .post("/token", async () => {}, {
     detail: {
       tags: ["Auth"],
+      description: "Проверка не был ли подделан access токен",
     },
   });

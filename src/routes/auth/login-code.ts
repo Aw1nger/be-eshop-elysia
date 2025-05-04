@@ -67,6 +67,9 @@ export const loginCodeRoutes = new Elysia().use(jwtPlugin).post(
   },
   {
     body: loginCodeSchema,
-    detail: { tags: ["Auth"] },
+    detail: {
+      tags: ["Auth"],
+      description: "Ввод кода с email и получение JWT если он верен",
+    },
   },
 );

@@ -65,6 +65,9 @@ export const verifyEmailRoutes = new Elysia().use(jwtPlugin).post(
   },
   {
     body: verifyEmailSchema,
-    detail: { tags: ["Auth"] },
+    detail: {
+      tags: ["Auth"],
+      description: "Подтверджение email при регистрации",
+    },
   },
 );

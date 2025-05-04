@@ -63,6 +63,7 @@ export const getProductsRoutes = new Elysia().get(
     query,
     detail: {
       tags: ["Shop"],
+      description: "Метод получения продуктов с пагинацией",
     },
   },
 );

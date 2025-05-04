@@ -23,5 +23,8 @@ export const loginRoutes = new Elysia().post(
     set.status = 200;
     return { message: "Verification code sent successfully!", email };
   },
-  { body: loginSchema, detail: { tags: ["Auth"] } },
+  {
+    body: loginSchema,
+    detail: { tags: ["Auth"], description: "Отправка кода для входа на email" },
+  },
 );

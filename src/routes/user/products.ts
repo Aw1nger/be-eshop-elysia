@@ -71,7 +71,13 @@ export const userProductsRoutes = new Elysia().get(
       previous: page > 1 ? page - 1 : null,
     };
   },
-  { query, tags: ["User"] },
+  {
+    query,
+    detail: {
+      tags: ["User"],
+      description: "Метод получения продуктов юзера с пагинацией",
+    },
+  },
 );
 
 export const serializeProductsParallel = async (products: any[]) => {

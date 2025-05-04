@@ -47,6 +47,9 @@ export const refreshTokenRoutes = new Elysia().use(jwtPlugin).post(
   },
   {
     body: refreshTokenSchema,
-    detail: { tags: ["Auth"] },
+    detail: {
+      tags: ["Auth"],
+      description: "Ревреш access токена с помощью рефреш токена",
+    },
   },
 );

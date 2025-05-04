@@ -20,6 +20,9 @@ export const userRoutes = new Elysia().get(
     };
   },
   {
-    tags: ["User"],
+    detail: {
+      tags: ["User"],
+      description: "Получение информации о юзере по username",
+    },
   },
 );
