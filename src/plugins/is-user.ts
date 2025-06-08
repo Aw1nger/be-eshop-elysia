@@ -1,18 +1,17 @@
 // plugins/is-auth.ts
 import Elysia from "elysia";
-import { ApiError } from "../lib/api-error";
 import { prisma } from "../lib/prisma-client";
 import { jwtPlugin } from "./jwt";
 
 /**
  * Проверка на то авторизован ли пользователь
  */
-export const isAuth = new Elysia()
+export const isUser = new Elysia()
   .use(jwtPlugin)
   .derive({ as: "scoped" }, async (ctx) => {
     const token = ctx.headers.authorization?.split(" ")[1];
     const payload = await ctx.jwt.verify(token ?? "");
-    if (!payload) throw new ApiError("Unauthorized", 401);
+    if (!payload) return undefined;
 
     const user = await prisma.user.findUnique({
       where: {
@@ -21,7 +20,7 @@ export const isAuth = new Elysia()
     });
 
     if (!user) {
-      throw new ApiError("Unauthorized", 401);
+      return undefined;
     }
 
     return {

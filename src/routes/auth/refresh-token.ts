@@ -1,4 +1,6 @@
+// routes/auth/refresh-token.ts
 import Elysia, { t } from "elysia";
+import { generateSignedUrl } from "../../lib/generate-signed-url";
 import { prisma } from "../../lib/prisma-client";
 import { redisClient } from "../../lib/redis-client";
 import { jwtPlugin } from "../../plugins/jwt";
@@ -11,6 +13,9 @@ export const refreshTokenSchema = t.Object({
   }),
 });
 
+/**
+ * Метод для рефреша токена
+ */
 export const refreshTokenRoutes = new Elysia().use(jwtPlugin).post(
   "/refresh-token",
   async ({ body, set, jwt }) => {
@@ -36,8 +41,8 @@ export const refreshTokenRoutes = new Elysia().use(jwtPlugin).post(
       id: user.id,
       email: user.email,
       username: user.username,
-      avatar: user.avatar ?? "",
-      role: user.role as "user" | "admin",
+      avatar: user.avatar ? await generateSignedUrl(user.avatar) : "",
+      role: user.role,
     });
 
     return {

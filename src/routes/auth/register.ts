@@ -1,3 +1,4 @@
+// routes/auth/register.ts
 import { Prisma } from "@prisma/client";
 import Elysia, { t } from "elysia";
 import { ApiError } from "../../lib/api-error";
@@ -17,6 +18,9 @@ const registerSchema = t.Object({
   }),
 });
 
+/**
+ * Метод регистрации юзера
+ */
 export const registerRoutes = new Elysia().post(
   "/register",
   async ({ body, set }) => {

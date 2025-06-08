@@ -1,5 +1,7 @@
+// routes/auth/verify-email.ts
 import Elysia, { t } from "elysia";
 import { nanoid } from "nanoid";
+import { generateSignedUrl } from "../../lib/generate-signed-url";
 import { prisma } from "../../lib/prisma-client";
 import { redisClient } from "../../lib/redis-client";
 import { jwtPlugin } from "../../plugins/jwt";
@@ -16,6 +18,9 @@ const verifyEmailSchema = t.Object({
   }),
 });
 
+/**
+ * Метод подтверждения почты
+ */
 export const verifyEmailRoutes = new Elysia().use(jwtPlugin).post(
   "/verify-email",
   async ({ body, set, jwt }) => {
@@ -44,7 +49,7 @@ export const verifyEmailRoutes = new Elysia().use(jwtPlugin).post(
       id: user.id,
       email: user.email,
       username: user.username,
-      avatar: user.avatar ?? "",
+      avatar: user.avatar ? await generateSignedUrl(user.avatar) : "",
       role: user.role as "user" | "admin",
     });
 

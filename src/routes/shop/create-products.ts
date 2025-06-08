@@ -1,3 +1,4 @@
+// routes/shop/create-product.ts
 import Elysia, { t } from "elysia";
 import { prisma } from "../../lib/prisma-client";
 import { isAuth } from "../../plugins/is-auth";
@@ -41,6 +42,9 @@ export const CreateProductSchema = t.Object({
   }),
 });
 
+/**
+ * Метод для создания продукта
+ */
 export const createProductsRoutes = new Elysia().use(isAuth).post(
   "/create",
   async ({ body, user }) => {

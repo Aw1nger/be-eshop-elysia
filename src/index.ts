@@ -8,12 +8,16 @@ import { refreshTokenRoutes } from "./routes/auth/refresh-token";
 import { registerRoutes } from "./routes/auth/register";
 import { tokenRoutes } from "./routes/auth/token";
 import { verifyEmailRoutes } from "./routes/auth/verify-email";
+import { addProductRoute as addCartRoutes } from "./routes/cart/add-cart";
+import { deleteProductRoute as deleteCartRoutes } from "./routes/cart/delete-cart";
+import { getCartRoute as getCartRoutes } from "./routes/cart/get-cart";
 import { createProductsRoutes } from "./routes/shop/create-products";
 import { deleteProductRoutes } from "./routes/shop/delete-product";
 import { getProductRoutes } from "./routes/shop/get-product";
 import { getProductsRoutes } from "./routes/shop/get-products";
 import { uploadProductsPhotoRoutes } from "./routes/shop/upload-products-photo";
 import { userProductsRoutes } from "./routes/user/products";
+import { uploadAvatarRoutes } from "./routes/user/upload-avatar";
 import { userRoutes } from "./routes/user/username";
 
 const app = new Elysia();
@@ -45,6 +49,10 @@ app.onError(({ error, set, path, code }) => {
   return { message: "Internal server error" };
 });
 
+app.group("/cart", { detail: { tags: ["Cart"] } }, (app) =>
+  app.use(addCartRoutes).use(getCartRoutes).use(deleteCartRoutes),
+);
+
 app.group("/products", (app) =>
   app
     .use(createProductsRoutes)
@@ -64,7 +72,9 @@ app.group("/auth", (app) =>
     .use(loginCodeRoutes),
 );
 
-app.group("/user", (app) => app.use(userRoutes).use(userProductsRoutes));
+app.group("/user", (app) =>
+  app.use(userRoutes).use(userProductsRoutes).use(uploadAvatarRoutes),
+);
 
 app.listen(8000, () => {
   console.info(`🦊 Elysia is running at on port ${app.server?.port}`);

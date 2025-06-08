@@ -4,7 +4,7 @@ import { ApiError } from "../../lib/api-error";
 import { prisma } from "../../lib/prisma-client";
 import { isAuth } from "../../plugins/is-auth";
 
-export const deleteProductRoutes = new Elysia().use(isAuth).delete(
+export const deleteProductRoute = new Elysia().use(isAuth).delete(
   "/:id",
   async ({ params, user }) => {
     try {
@@ -14,18 +14,17 @@ export const deleteProductRoutes = new Elysia().use(isAuth).delete(
         throw new ApiError("Invalid product ID", 400);
       }
 
-      const deleteConditions =
-        user.role === "admin"
-          ? { id: productId }
-          : { id: productId, userId: user.id };
-
-      const result = await prisma.product.delete({
-        where: deleteConditions,
+      await prisma.cart.delete({
+        where: {
+          userId_productId: {
+            userId: user.id,
+            productId: productId,
+          },
+        },
       });
 
       return {
         message: "Product deleted successfully",
-        data: { id: result.id },
       };
     } catch (error) {
       if (
@@ -49,7 +48,7 @@ export const deleteProductRoutes = new Elysia().use(isAuth).delete(
   {
     detail: {
       tags: ["Shop"],
-      description: "Метод удаления продукта",
+      description: "Метод удаления продукта из корзины",
       responses: {
         "200": {
           description: "Продукт успешно удален",
@@ -62,7 +61,7 @@ export const deleteProductRoutes = new Elysia().use(isAuth).delete(
                   data: {
                     type: "object",
                     properties: {
-                      id: { type: "number" },
+                      message: { type: "string" },
                     },
                   },
                 },

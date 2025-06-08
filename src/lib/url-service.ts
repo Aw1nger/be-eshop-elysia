@@ -17,7 +17,6 @@ export const getOrCreateSignedUrl = async (path: string) => {
   signedUrl = await generateSignedUrl(path);
 
   await setSignedUrlToCache(cacheKey, signedUrl, URL_EXPIRATION - 60);
-  // На минуту меньше чтобы не протухло прям в момент запроса
 
   return signedUrl;
 };

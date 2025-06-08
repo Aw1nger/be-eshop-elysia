@@ -1,10 +1,13 @@
 import { minio } from "./minio-client";
 
-export const generateSignedUrl = async (path: string) => {
+export const generateSignedUrl = async (
+  path: string,
+  expiresIn: number = 3600,
+) => {
   const url = minio.presign(path, {
     acl: "public-read",
     method: "GET",
-    expiresIn: 3600,
+    expiresIn,
     endpoint: Bun.env.MINIO_OUTPUT,
   });
 

@@ -1,3 +1,4 @@
+// routes/shop/upload-product-photo.ts
 import { MediaType } from "@prisma/client";
 import Elysia, { t } from "elysia";
 import sharp from "sharp";
@@ -6,10 +7,11 @@ import { minio } from "../../lib/minio-client";
 import { prisma } from "../../lib/prisma-client";
 import { isAuth } from "../../plugins/is-auth";
 
-type formats = "jpeg" | "webp" | "avif";
-
 const uploadSchema = t.Object({ image: t.File({ format: "image/*" }) });
 
+/**
+ * Метод для загрузки фото к продукту
+ */
 export const uploadProductsPhotoRoutes = new Elysia().use(isAuth).post(
   "/upload-photo/:id",
   async ({ body, user, params }) => {
@@ -37,7 +39,7 @@ export const uploadProductsPhotoRoutes = new Elysia().use(isAuth).post(
       { name: "thumb", resize: 800 },
     ];
 
-    const formats: formats[] = ["jpeg", "webp", "avif"];
+    const formats: TImageFormats[] = ["jpeg", "webp", "avif"];
 
     const createdMedia = await prisma.media.create({
       data: {

@@ -1,18 +1,12 @@
-import Elysia, { t } from "elysia";
+// routes/shop/get-product.ts
+import Elysia from "elysia";
 import { prisma } from "../../lib/prisma-client";
 import { getOrCreateSignedUrl } from "../../lib/url-service";
+import { SPaginationQuery } from "../../types/pagination.schema";
 
-const query = t.Object({
-  limit: t.Number({
-    minimum: 1,
-    default: 10,
-  }),
-  page: t.Number({
-    minimum: 1,
-    default: 1,
-  }),
-});
-
+/**
+ * Метод получения списка товаров с пагинацией
+ */
 export const getProductsRoutes = new Elysia().get(
   "",
   async ({ query }) => {
@@ -60,7 +54,7 @@ export const getProductsRoutes = new Elysia().get(
     };
   },
   {
-    query,
+    query: SPaginationQuery,
     detail: {
       tags: ["Shop"],
       description: "Метод получения продуктов с пагинацией",

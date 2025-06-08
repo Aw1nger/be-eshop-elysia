@@ -1,6 +1,10 @@
+// plugins/swagger.ts
 import swagger from "@elysiajs/swagger";
 import { Elysia } from "elysia";
 
+/**
+ * Описывает развертывание Swagger для проекта
+ */
 export const swaggerplugin = new Elysia().use(
   swagger({
     scalarConfig: {
@@ -18,8 +22,7 @@ export const swaggerplugin = new Elysia().use(
       authentication: {
         securitySchemes: {
           httpBearer: {
-            token:
-              "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwiZW1haWwiOiJhdzFuZ2VyQHlhbmRleC5ydSIsInVzZXJuYW1lIjoiYXcxbmdlciIsImF2YXRhciI6IiIsInJvbGUiOiJ1c2VyIiwiZXhwIjoxNzQ1NjkyMTQyfQ.4gmXJ-WAbbAhbmmvmp_HExCpx2AJ853IpMIvevfHV1s",
+            token: "",
           },
         },
       },
@@ -34,6 +37,7 @@ export const swaggerplugin = new Elysia().use(
         { name: "Auth", description: "Ендпоинты аутентификации" },
         { name: "Shop", description: "Ендпоинты товаров" },
         { name: "User", description: "Ендпоинты юзера" },
+        { name: "Cart", description: "Ендпоинты корзины" },
       ],
       components: {
         securitySchemes: {

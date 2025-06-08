@@ -1,3 +1,4 @@
+// routes/auth/login.ts
 import Elysia, { t } from "elysia";
 import { sendVerificationEmail } from "../../lib/email";
 import { redisClient } from "../../lib/redis-client";
@@ -9,6 +10,9 @@ const loginSchema = t.Object({
   }),
 });
 
+/**
+ * Метод входа в аккаунт
+ */
 export const loginRoutes = new Elysia().post(
   "/login",
   async ({ body, set }) => {

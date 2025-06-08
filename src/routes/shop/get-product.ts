@@ -2,12 +2,14 @@ import Elysia from "elysia";
 import { ApiError } from "../../lib/api-error";
 import { prisma } from "../../lib/prisma-client";
 import { getOrCreateSignedUrl } from "../../lib/url-service";
+import { isUser } from "../../plugins/is-user";
 
-export const getProductRoutes = new Elysia().get(
+export const getProductRoutes = new Elysia().use(isUser).get(
   "/:id",
-  async ({ params }) => {
+  async ({ params, user }) => {
     const { id } = params;
 
+    // Запрос к продукту с данными корзины
     const product = await prisma.product.findUnique({
       where: {
         id: Number(id),
@@ -38,12 +40,25 @@ export const getProductRoutes = new Elysia().get(
             },
           },
         },
+        cart: user
+          ? {
+              where: {
+                userId: user.id,
+                productId: Number(id),
+              },
+              select: {
+                count: true,
+              },
+            }
+          : undefined,
       },
     });
 
     if (!product) {
       throw new ApiError("Product not found", 404);
     }
+
+    const cartCount = user && product.cart ? product.cart[0].count : 0;
 
     const publicImages = await Promise.all(
       product.images.map(async (media: any) => {
@@ -64,15 +79,30 @@ export const getProductRoutes = new Elysia().get(
       }),
     );
 
+    const { cart, ...productWithoutCart } = product;
+
     return {
-      ...product,
+      ...productWithoutCart,
+      user: {
+        ...product.user,
+        avatar: product.user.avatar
+          ? await getOrCreateSignedUrl(product.user.avatar)
+          : null,
+      },
       images: publicImages,
+      cartCount,
     };
   },
   {
     detail: {
       tags: ["Shop"],
       description: "Получение продукта по id",
+      responses: {
+        "200": {
+          description: "Успешный запрос",
+          content: {},
+        },
+      },
     },
   },
 );

@@ -16,6 +16,8 @@ enum UserRole {
 enum MediaType {
   preview
   thumb
+  original
+  base
 }
 
 enum MediaFormat {

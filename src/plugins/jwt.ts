@@ -1,6 +1,10 @@
+// plugins/jwt.ts
 import jwt from "@elysiajs/jwt";
 import { Elysia, t } from "elysia";
 
+/**
+ * Описание JWT
+ */
 export const jwtPlugin = new Elysia().use(
   jwt({
     name: "jwt",

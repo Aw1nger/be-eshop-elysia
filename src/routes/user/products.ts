@@ -1,3 +1,4 @@
+// routes/user/product.ts
 import Elysia, { t } from "elysia";
 import { prisma } from "../../lib/prisma-client";
 import { getOrCreateSignedUrl } from "../../lib/url-service";
@@ -14,6 +15,9 @@ const query = t.Object({
   }),
 });
 
+/**
+ * Метод получения продуктов юзера
+ */
 export const userProductsRoutes = new Elysia().get(
   "/:username/products",
   async ({ params, query }) => {
