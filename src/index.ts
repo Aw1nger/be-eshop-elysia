@@ -11,6 +11,8 @@ import { verifyEmailRoutes } from "./routes/auth/verify-email";
 import { addProductRoute as addCartRoutes } from "./routes/cart/add-cart";
 import { deleteProductRoute as deleteCartRoutes } from "./routes/cart/delete-cart";
 import { getCartRoute as getCartRoutes } from "./routes/cart/get-cart";
+import { getSumRoute } from "./routes/cart/get-sum";
+import { createOrderRoutes } from "./routes/order/create-order";
 import { createProductsRoutes } from "./routes/shop/create-products";
 import { deleteProductRoutes } from "./routes/shop/delete-product";
 import { getProductRoutes } from "./routes/shop/get-product";
@@ -49,8 +51,16 @@ app.onError(({ error, set, path, code }) => {
   return { message: "Internal server error" };
 });
 
+app.group("/order", { detail: { tags: ["Order"] } }, (app) =>
+  app.use(createOrderRoutes),
+);
+
 app.group("/cart", { detail: { tags: ["Cart"] } }, (app) =>
-  app.use(addCartRoutes).use(getCartRoutes).use(deleteCartRoutes),
+  app
+    .use(addCartRoutes)
+    .use(getCartRoutes)
+    .use(deleteCartRoutes)
+    .use(getSumRoute),
 );
 
 app.group("/products", (app) =>

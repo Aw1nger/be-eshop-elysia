@@ -25,6 +25,7 @@ export const getCartRoute = new Elysia().use(isAuth).get(
             id: true,
             name: true,
             price: true,
+            description: true,
             user: {
               select: {
                 username: true,
@@ -81,7 +82,7 @@ export const getCartRoute = new Elysia().use(isAuth).get(
         return {
           ...product.product,
           user,
-          images,
+          images: images[0],
         };
       });
 

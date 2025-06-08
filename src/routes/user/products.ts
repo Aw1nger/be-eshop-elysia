@@ -93,7 +93,7 @@ export const serializeProductsParallel = async (products: any[]) => {
             const signedUrl = await getOrCreateSignedUrl(version.link);
             return {
               format: version.format,
-              signedUrl: signedUrl ?? null,
+              link: signedUrl ?? null,
             };
           }),
         );

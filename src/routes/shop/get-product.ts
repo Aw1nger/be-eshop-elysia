@@ -58,7 +58,7 @@ export const getProductRoutes = new Elysia().use(isUser).get(
       throw new ApiError("Product not found", 404);
     }
 
-    const cartCount = user && product.cart ? product.cart[0].count : 0;
+    const cartCount = user && product.cart[0] ? product.cart[0].count : 0;
 
     const publicImages = await Promise.all(
       product.images.map(async (media: any) => {
@@ -67,7 +67,7 @@ export const getProductRoutes = new Elysia().use(isUser).get(
             const signedUrl = await getOrCreateSignedUrl(version.link);
             return {
               format: version.format,
-              signedUrl: signedUrl ?? null,
+              link: signedUrl ?? null,
             };
           }),
         );

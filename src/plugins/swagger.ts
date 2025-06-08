@@ -38,6 +38,7 @@ export const swaggerplugin = new Elysia().use(
         { name: "Shop", description: "Ендпоинты товаров" },
         { name: "User", description: "Ендпоинты юзера" },
         { name: "Cart", description: "Ендпоинты корзины" },
+        { name: "Order", description: "Ендпоинты заказов" },
       ],
       components: {
         securitySchemes: {
